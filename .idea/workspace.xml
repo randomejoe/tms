@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee3ce1c-4935-44c4-aed2-6d35aa283bf0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/Ticket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/QuickStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
@@ -41,8 +41,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.QuickStart.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
@@ -72,7 +74,7 @@
       <option name="presentableId" value="Default" />
       <updated>1759134847001</updated>
       <workItem from="1759134847996" duration="3000" />
-      <workItem from="1759135471808" duration="1435000" />
+      <workItem from="1759135471808" duration="2687000" />
     </task>
     <servers />
   </component>
