@@ -38,7 +38,7 @@ public class User {
     }
 
     public String getRole() {
-        return rol;
+        return role;
     }
 
     public String getBranch() {

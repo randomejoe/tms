@@ -18,7 +18,6 @@ public class Ticket {
         this.dateOfSubmission = dateOfSubmission;
         this.deadline = deadline;
         this.priority = priority;
-        this.priority = priority;
         this.employeeID = employeeID;
         this.type = type;
         this.subject = subject;
@@ -97,5 +96,21 @@ public class Ticket {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Ticket:\n");
+        builder.append("  id: ").append(id).append('\n');
+        builder.append("  status: ").append(status).append('\n');
+        builder.append("  dateOfSubmission: ").append(dateOfSubmission).append('\n');
+        builder.append("  deadline: ").append(deadline).append('\n');
+        builder.append("  priority: ").append(priority).append('\n');
+        builder.append("  employeeID: ").append(employeeID).append('\n');
+        builder.append("  type: ").append(type).append('\n');
+        builder.append("  subject: ").append(subject).append('\n');
+        builder.append("  description: ").append(description);
+        return builder.toString();
     }
 }
