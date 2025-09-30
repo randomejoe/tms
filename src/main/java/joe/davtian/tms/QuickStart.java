@@ -12,6 +12,7 @@ public class QuickStart {
     static final String CONNECTION_STRING = "mongodb+srv://joedavtian_db_user:lz74kNWb2GITybZ9@cluster0.p92yeyr.mongodb.net/";
     static final String DATABASE_NAME = "IncidentManagment";
     static final String TICKETS_COLLECTION = "Tickets";
+    static final String USERS_COLLECTION = "Users";
 
     private QuickStart() {
         // utility class

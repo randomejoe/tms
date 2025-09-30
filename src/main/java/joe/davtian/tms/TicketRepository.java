@@ -17,6 +17,9 @@ import org.bson.types.ObjectId;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.result.DeleteResult;
 
 public class TicketRepository {
 
@@ -28,6 +31,64 @@ public class TicketRepository {
                 tickets.add(toTicket(document));
             }
             return tickets;
+        }
+    }
+
+    public Ticket createTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket must not be null");
+        }
+
+        try (MongoClient mongoClient = QuickStart.createClient()) {
+            MongoCollection<Document> collection = QuickStart.getTicketCollection(mongoClient);
+            Document document = toDocument(ticket);
+            collection.insertOne(document);
+
+            Object insertedId = document.get("_id");
+            if (insertedId instanceof ObjectId objectId) {
+                ticket.setId(objectId.toHexString());
+            } else if (insertedId != null) {
+                ticket.setId(insertedId.toString());
+            }
+
+            return toTicket(document);
+        }
+    }
+
+    public Ticket updateTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket must not be null");
+        }
+        if (ticket.getId() == null || ticket.getId().isBlank()) {
+            throw new IllegalArgumentException("Ticket id must not be null or blank");
+        }
+
+        try (MongoClient mongoClient = QuickStart.createClient()) {
+            MongoCollection<Document> collection = QuickStart.getTicketCollection(mongoClient);
+            Document filter = buildIdFilter(ticket.getId());
+            Document updateDocument = toDocument(ticket);
+            updateDocument.remove("_id");
+
+            if (updateDocument.isEmpty()) {
+                throw new IllegalArgumentException("Ticket does not contain any updatable fields");
+            }
+
+            FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER);
+            Document updated = collection.findOneAndUpdate(filter, new Document("$set", updateDocument), options);
+            return updated != null ? toTicket(updated) : null;
+        }
+    }
+
+    public boolean deleteTicket(String ticketId) {
+        if (ticketId == null || ticketId.isBlank()) {
+            throw new IllegalArgumentException("Ticket id must not be null or blank");
+        }
+
+        try (MongoClient mongoClient = QuickStart.createClient()) {
+            MongoCollection<Document> collection = QuickStart.getTicketCollection(mongoClient);
+            Document filter = buildIdFilter(ticketId);
+            DeleteResult result = collection.deleteOne(filter);
+            return result.getDeletedCount() > 0;
         }
     }
 
@@ -69,6 +130,61 @@ public class TicketRepository {
         ticket.setDescription(getString(document, "Description", "description"));
 
         return ticket;
+    }
+
+    private Document toDocument(Ticket ticket) {
+        Document document = new Document();
+
+        Object identifier = toIdentifier(ticket.getId());
+        if (identifier != null) {
+            document.put("_id", identifier);
+        }
+
+        putIfNotNull(document, "status", ticket.getStatus());
+        putIfNotNull(document, "dateOfSubmission", ticket.getDateOfSubmission());
+        putIfNotNull(document, "deadline", ticket.getDeadline());
+        putIfNotNull(document, "priority", ticket.getPriority());
+        document.put("employeeId", ticket.getEmployeeID());
+        putIfNotNull(document, "type", ticket.getType());
+        putIfNotNull(document, "subject", ticket.getSubject());
+        putIfNotNull(document, "description", ticket.getDescription());
+
+        return document;
+    }
+
+    private void putIfNotNull(Document document, String key, Object value) {
+        if (value != null) {
+            document.put(key, value);
+        }
+    }
+
+    private Document buildIdFilter(String ticketId) {
+        Object identifier = toIdentifier(ticketId);
+
+        List<Document> orFilters = new ArrayList<>();
+        if (identifier != null) {
+            orFilters.add(new Document("_id", identifier));
+        }
+        orFilters.add(new Document("id", ticketId));
+        orFilters.add(new Document("Id", ticketId));
+        orFilters.add(new Document("ticketId", ticketId));
+        orFilters.add(new Document("TicketId", ticketId));
+
+        if (orFilters.size() == 1) {
+            return orFilters.get(0);
+        }
+
+        return new Document("$or", orFilters);
+    }
+
+    private Object toIdentifier(String ticketId) {
+        if (ticketId == null || ticketId.isBlank()) {
+            return null;
+        }
+        if (ObjectId.isValid(ticketId)) {
+            return new ObjectId(ticketId);
+        }
+        return ticketId;
     }
 
     private String getString(Document document, String... keys) {

@@ -3,7 +3,7 @@ import java.util.Date;
 
 public class Ticket {
     private String id;
-    private String status;
+    private String Status;
     private Date dateOfSubmission;
     private Date deadline;
     private String priority;
@@ -14,7 +14,7 @@ public class Ticket {
 
     public Ticket(String id, String status, Date dateOfSubmission, Date deadline, String priority, int employeeID, String type, String subject, String description) {
         this.id = id;
-        this.status = status;
+        this.Status = status;
         this.dateOfSubmission = dateOfSubmission;
         this.deadline = deadline;
         this.priority = priority;
@@ -27,11 +27,11 @@ public class Ticket {
     public Ticket() {}
 
     public String getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.Status = status;
     }
 
     public Date getDeadline() {
@@ -103,7 +103,7 @@ public class Ticket {
         StringBuilder builder = new StringBuilder();
         builder.append("Ticket:\n");
         builder.append("  id: ").append(id).append('\n');
-        builder.append("  status: ").append(status).append('\n');
+        builder.append("  status: ").append(Status).append('\n');
         builder.append("  dateOfSubmission: ").append(dateOfSubmission).append('\n');
         builder.append("  deadline: ").append(deadline).append('\n');
         builder.append("  priority: ").append(priority).append('\n');
