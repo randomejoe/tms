@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1ee3ce1c-4935-44c4-aed2-6d35aa283bf0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/QuickStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/QuickStart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/TicketDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/TicketDetailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/TicketRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/joe/davtian/tms/TicketRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/joe/davtian/tms/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/joe/davtian/tms/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/joe/davtian/tms/ticket-detail-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/joe/davtian/tms/ticket-detail-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,10 +86,24 @@
       <workItem from="1759154400589" duration="2066000" />
       <workItem from="1759236774360" duration="219000" />
       <workItem from="1759237387255" duration="1122000" />
+      <workItem from="1759239921581" duration="5070000" />
+      <workItem from="1759309964897" duration="431000" />
+      <workItem from="1759310499649" duration="582000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

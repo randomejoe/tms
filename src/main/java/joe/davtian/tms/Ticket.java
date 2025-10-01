@@ -102,15 +102,15 @@ public class Ticket {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Ticket:\n");
-        builder.append("  id: ").append(id).append('\n');
-        builder.append("  status: ").append(Status).append('\n');
-        builder.append("  dateOfSubmission: ").append(dateOfSubmission).append('\n');
-        builder.append("  deadline: ").append(deadline).append('\n');
-        builder.append("  priority: ").append(priority).append('\n');
-        builder.append("  employeeID: ").append(employeeID).append('\n');
-        builder.append("  type: ").append(type).append('\n');
-        builder.append("  subject: ").append(subject).append('\n');
-        builder.append("  description: ").append(description);
+        builder.append("  _id: ").append(id).append('\n');
+        builder.append("  Status: ").append(Status).append('\n');
+        builder.append("  DateOfSubmition: ").append(dateOfSubmission).append('\n');
+        builder.append("  Deadline: ").append(deadline).append('\n');
+        builder.append("  Priority: ").append(priority).append('\n');
+        builder.append("  EmployeeID: ").append(employeeID).append('\n');
+        builder.append("  Type: ").append(type).append('\n');
+        builder.append("  Subject: ").append(subject).append('\n');
+        builder.append("  Description: ").append(description);
         return builder.toString();
     }
 }

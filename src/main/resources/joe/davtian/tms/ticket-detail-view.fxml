@@ -2,9 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="joe.davtian.tms.TicketDetailController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="joe.davtian.tms.TicketDetailController">
     <center>
         <GridPane hgap="10" vgap="10">
             <columnConstraints>
@@ -21,50 +21,55 @@
                 <ColumnConstraints minWidth="200" prefWidth="350" />
             </columnConstraints>
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20" />
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
             <children>
-                <Label text="ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                <TextField fx:id="idField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
-                <Label text="Status:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                <TextField fx:id="statusField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                <Label text="Date Submitted:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                <DatePicker fx:id="submissionPicker" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                <Label text="Date Submitted:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <DatePicker fx:id="submissionPicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <Label text="Deadline:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                <DatePicker fx:id="deadlinePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                <Label text="Deadline:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <DatePicker fx:id="deadlinePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                <Label text="Priority:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                <TextField fx:id="priorityField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                <Label text="Priority:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-                <Label text="Employee ID:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                <Spinner fx:id="employeeSpinner" GridPane.rowIndex="5" GridPane.columnIndex="1" prefWidth="150" />
+                <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-                <Label text="Type:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-                <TextField fx:id="typeField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                <Label text="Subject:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextField fx:id="subjectField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                <Label text="Subject:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
-                <TextField fx:id="subjectField" GridPane.rowIndex="7" GridPane.columnIndex="1" />
-
-                <Label text="Description:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
-                <TextArea fx:id="descriptionArea" GridPane.rowIndex="8" GridPane.columnIndex="1" prefRowCount="4" wrapText="true" />
+                <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <TextArea fx:id="descriptionArea" prefRowCount="4" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ComboBox fx:id="statusCombo" promptText="Select status" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="priorityCombo" promptText="Select priority" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="typeCombo" promptText="Select type" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </center>
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10">
             <children>
-                <Button text="Update" onAction="#onUpdate" fx:id="updateButton" />
-                <Button text="Delete" onAction="#onDelete" fx:id="deleteButton" />
-                <Button text="Close" onAction="#onClose" />
+                <Button fx:id="updateButton" onAction="#onUpdate" text="Update" />
+                <Button fx:id="deleteButton" onAction="#onDelete" text="Delete" />
+                <Button onAction="#onClose" text="Close" />
             </children>
             <padding>
-                <Insets top="10" right="20" bottom="20" left="20" />
+                <Insets bottom="20" left="20" right="20" top="10" />
             </padding>
         </HBox>
     </bottom>
 </BorderPane>
-

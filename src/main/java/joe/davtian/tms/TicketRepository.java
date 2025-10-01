@@ -101,33 +101,23 @@ public class TicketRepository {
         } else if (identifier != null) {
             ticket.setId(identifier.toString());
         } else {
-            ticket.setId(getString(document, "id", "Id", "ticketId", "TicketId"));
+            ticket.setId(getString(document, "id"));
         }
 
-        ticket.setStatus(getString(document, "Status", "status"));
+        ticket.setStatus(getString(document, "Status"));
         ticket.setDateOfSubmission(getDate(document,
-            "DateOfSubmission",
-            "dateOfSubmission",
-            "DateOfSubmition",
-            "dateOfSubmition",
-            "Date Of Submission",
-            "date_of_submission"));
-        ticket.setDeadline(getDate(document,
-            "Deadline",
-            "deadline",
-            "DueDate",
-            "dueDate",
-            "due_date"));
-        ticket.setPriority(getString(document, "Priority", "priority"));
+            "DateOfSubmition"));
+        ticket.setDeadline(getDate(document, "Deadline"));
+        ticket.setPriority(getString(document, "Priority"));
 
-        Number employeeId = getNumber(document, "EmployeeID", "employeeId", "EmployeeId");
+        Number employeeId = getNumber(document, "EmployeeID");
         if (employeeId != null) {
             ticket.setEmployeeID(employeeId.intValue());
         }
 
-        ticket.setType(getString(document, "Type", "type"));
-        ticket.setSubject(getString(document, "Subject", "subject"));
-        ticket.setDescription(getString(document, "Description", "description"));
+        ticket.setType(getString(document, "Type"));
+        ticket.setSubject(getString(document, "Subject"));
+        ticket.setDescription(getString(document, "Description"));
 
         return ticket;
     }
@@ -140,14 +130,14 @@ public class TicketRepository {
             document.put("_id", identifier);
         }
 
-        putIfNotNull(document, "status", ticket.getStatus());
-        putIfNotNull(document, "dateOfSubmission", ticket.getDateOfSubmission());
-        putIfNotNull(document, "deadline", ticket.getDeadline());
-        putIfNotNull(document, "priority", ticket.getPriority());
-        document.put("employeeId", ticket.getEmployeeID());
-        putIfNotNull(document, "type", ticket.getType());
-        putIfNotNull(document, "subject", ticket.getSubject());
-        putIfNotNull(document, "description", ticket.getDescription());
+        putIfNotNull(document, "Status", ticket.getStatus());
+        putIfNotNull(document, "DateOfSubmition", ticket.getDateOfSubmission());
+        putIfNotNull(document, "Deadline", ticket.getDeadline());
+        putIfNotNull(document, "Priority", ticket.getPriority());
+        document.put("EmployeeID", ticket.getEmployeeID());
+        putIfNotNull(document, "Type", ticket.getType());
+        putIfNotNull(document, "Subject", ticket.getSubject());
+        putIfNotNull(document, "Description", ticket.getDescription());
 
         return document;
     }
@@ -165,10 +155,6 @@ public class TicketRepository {
         if (identifier != null) {
             orFilters.add(new Document("_id", identifier));
         }
-        orFilters.add(new Document("id", ticketId));
-        orFilters.add(new Document("Id", ticketId));
-        orFilters.add(new Document("ticketId", ticketId));
-        orFilters.add(new Document("TicketId", ticketId));
 
         if (orFilters.size() == 1) {
             return orFilters.get(0);

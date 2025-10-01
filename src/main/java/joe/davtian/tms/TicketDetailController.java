@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,10 +25,7 @@ public class TicketDetailController {
     private boolean createMode;
 
     @FXML
-    private TextField idField;
-
-    @FXML
-    private TextField statusField;
+    private ComboBox<String> statusCombo;
 
     @FXML
     private DatePicker submissionPicker;
@@ -36,13 +34,10 @@ public class TicketDetailController {
     private DatePicker deadlinePicker;
 
     @FXML
-    private TextField priorityField;
+    private ComboBox<String> priorityCombo;
 
     @FXML
-    private Spinner<Integer> employeeSpinner;
-
-    @FXML
-    private TextField typeField;
+    private ComboBox<String> typeCombo;
 
     @FXML
     private TextField subjectField;
@@ -58,9 +53,15 @@ public class TicketDetailController {
 
     @FXML
     public void initialize() {
-        employeeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0));
-        idField.setEditable(false);
-        idField.setPromptText("Generated after save");
+        if (statusCombo != null) {
+            statusCombo.setItems(FXCollections.observableArrayList("Open", "In Progress", "Closed"));
+        }
+        if (priorityCombo != null) {
+            priorityCombo.setItems(FXCollections.observableArrayList("Low", "Medium", "High"));
+        }
+        if (typeCombo != null) {
+            typeCombo.setItems(FXCollections.observableArrayList("IT", "Maintenance", "HR", "Finance"));
+        }
     }
 
     public void setTicket(Ticket ticket) {
@@ -69,6 +70,9 @@ public class TicketDetailController {
             clearForm();
         } else {
             populateForm(ticket);
+            if (!createMode && stage != null && ticket.getId() != null && !ticket.getId().isBlank()) {
+                stage.setTitle("Ticket Details - " + ticket.getId());
+            }
         }
     }
 
@@ -105,7 +109,7 @@ public class TicketDetailController {
                 populateForm(created);
                 setCreateMode(false);
                 if (stage != null) {
-                    stage.setTitle("Ticket Details");
+                    stage.setTitle(buildDetailTitle(created.getId()));
                 }
                 notifyTicketChanged();
                 showInfo("Ticket created", "The ticket was created successfully.");
@@ -123,6 +127,9 @@ public class TicketDetailController {
 
                 this.ticket = persisted;
                 populateForm(persisted);
+                if (stage != null) {
+                    stage.setTitle(buildDetailTitle(persisted.getId()));
+                }
                 notifyTicketChanged();
                 showInfo("Ticket updated", "Changes were saved successfully.");
             }
@@ -159,15 +166,12 @@ public class TicketDetailController {
     }
 
     private void populateForm(Ticket existing) {
-        idField.setText(existing.getId());
-        statusField.setText(existing.getStatus());
+        applyComboSelection(statusCombo, existing.getStatus());
+        applyComboSelection(priorityCombo, existing.getPriority());
+        applyComboSelection(typeCombo, existing.getType());
+
         submissionPicker.setValue(toLocalDate(existing.getDateOfSubmission()));
         deadlinePicker.setValue(toLocalDate(existing.getDeadline()));
-        priorityField.setText(existing.getPriority());
-        if (employeeSpinner.getValueFactory() != null) {
-            employeeSpinner.getValueFactory().setValue(existing.getEmployeeID());
-        }
-        typeField.setText(existing.getType());
         subjectField.setText(existing.getSubject());
         descriptionArea.setText(existing.getDescription());
     }
@@ -175,31 +179,33 @@ public class TicketDetailController {
     private Ticket collectTicketFromForm() {
         Ticket result = new Ticket();
 
-        String id = trimOrNull(idField.getText());
+        String id = ticket != null ? trimOrNull(ticket.getId()) : null;
         if (!createMode && (id == null || id.isBlank())) {
-            if (ticket != null && ticket.getId() != null && !ticket.getId().isBlank()) {
-                id = ticket.getId();
-            } else {
-                throw new IllegalArgumentException("Ticket id is required");
-            }
+            throw new IllegalArgumentException("Ticket id is required");
         }
 
         result.setId(id);
-        result.setStatus(trimOrNull(statusField.getText()));
+        result.setStatus(trimOrNull(getComboValue(statusCombo)));
         result.setDateOfSubmission(toDate(submissionPicker.getValue()));
         result.setDeadline(toDate(deadlinePicker.getValue()));
-        result.setPriority(trimOrNull(priorityField.getText()));
+        result.setPriority(trimOrNull(getComboValue(priorityCombo)));
 
-        Integer employeeId = employeeSpinner.getValue();
-        if (employeeId == null) {
-            employeeId = 0;
-        }
+        int employeeId = ticket != null ? ticket.getEmployeeID() : 0;
         result.setEmployeeID(employeeId);
-        result.setType(trimOrNull(typeField.getText()));
+        result.setType(trimOrNull(getComboValue(typeCombo)));
         result.setSubject(trimOrNull(subjectField.getText()));
         result.setDescription(trimOrNull(descriptionArea.getText()));
 
         return result;
+    }
+
+    private String buildDetailTitle(String ticketId) {
+        String baseTitle = "Ticket Details";
+        String trimmedId = trimOrNull(ticketId);
+        if (trimmedId == null) {
+            return baseTitle;
+        }
+        return baseTitle + " - " + trimmedId;
     }
 
     private String trimOrNull(String value) {
@@ -237,17 +243,40 @@ public class TicketDetailController {
     }
 
     private void clearForm() {
-        idField.setText("");
-        statusField.setText("");
+        resetCombo(statusCombo);
+        resetCombo(priorityCombo);
+        resetCombo(typeCombo);
         submissionPicker.setValue(null);
         deadlinePicker.setValue(null);
-        priorityField.setText("");
-        if (employeeSpinner.getValueFactory() != null) {
-            employeeSpinner.getValueFactory().setValue(0);
-        }
-        typeField.setText("");
         subjectField.setText("");
         descriptionArea.setText("");
+    }
+
+    private void applyComboSelection(ComboBox<String> comboBox, String value) {
+        if (comboBox == null) {
+            return;
+        }
+        String trimmed = trimOrNull(value);
+        if (trimmed == null) {
+            comboBox.getSelectionModel().clearSelection();
+            comboBox.setValue(null);
+            return;
+        }
+        if (!comboBox.getItems().contains(trimmed)) {
+            comboBox.getItems().add(trimmed);
+        }
+        comboBox.setValue(trimmed);
+    }
+
+    private void resetCombo(ComboBox<String> comboBox) {
+        if (comboBox != null) {
+            comboBox.getSelectionModel().clearSelection();
+            comboBox.setValue(null);
+        }
+    }
+
+    private String getComboValue(ComboBox<String> comboBox) {
+        return comboBox == null ? null : comboBox.getValue();
     }
 
     private void showError(String title, String message) {
